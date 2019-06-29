@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 // Material-UI
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -20,6 +21,15 @@ class App extends React.Component {
       description: '',
       notes: []
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get("/notes.json")
+      .then(response => {
+        this.setState({ notes: response.data })
+      })
+      .catch(e => console.log(`Unable to fetch data: ${e}`));
   }
 
   updateField = field => e => {
