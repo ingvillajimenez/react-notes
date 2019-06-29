@@ -10,7 +10,7 @@ import NotesList from './NotesList';
 import Home from './Home';
 import Note from './Note';
 // React Router
-import { Link, Route } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   constructor(props) {
@@ -45,6 +45,16 @@ class App extends React.Component {
     }
   };
 
+  deleteNote = id => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    });
+  };
+
+  filterNote = id => {
+    return this.state.notes.filter(note => note.id === parseInt(id))[0];
+  }
+
   render() {
     console.log(this.state);
     return (
@@ -61,7 +71,10 @@ class App extends React.Component {
 
         <Grid container justify="center" spacing={2}>
           <Grid item xs={4}>
-            <NotesList notes={this.state.notes} />
+            <NotesList 
+              notes={this.state.notes}
+              deleteNote={this.deleteNote}
+            />
           </Grid>
           <Grid item xs={8}>
             <Route exact path="/" component={Home} />
@@ -78,7 +91,10 @@ class App extends React.Component {
             />
             <Route 
               path="/view/:id"
-              render={props => <Note {...props} notes={this.state.notes} />} 
+              render={props => {
+                const note = this.filterNote(props.match.params.id);
+                return note ? <Note note={note} /> : <Redirect to="/" />;
+              }} 
             />
           </Grid>
         </Grid>
