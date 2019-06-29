@@ -8,6 +8,9 @@
 // se modifica el script del package.json "start": "react-scripts start" por "start": "node server.js"
 // npm run start
 // git remote add heroku https://git.heroku.com/dry-fortress-18216.git (si no tengo el remote)
+// git add .
+// git commit
+// git push heroku master
 
 const express = require("express");
 const path = require("path");
